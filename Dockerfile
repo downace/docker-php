@@ -13,3 +13,9 @@ RUN apk --no-cache add postgresql-dev postgresql-libs \
 
 # Remove phpize deps (saves about 200Mb)
 RUN apk --no-cache del .phpize-deps
+
+RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
+    # There is no sha384sum utility, using PHP implementation
+    && php -r "exit(strcmp(hash_file('SHA384', 'composer-setup.php'), '`curl -fs https://composer.github.io/installer.sig`'));" || echo 'Compose installer corrupt' \
+    && php composer-setup.php --install-dir=/usr/bin --filename=composer \
+    && rm composer-setup.php
