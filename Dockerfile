@@ -11,6 +11,9 @@ RUN apk --no-cache add postgresql-dev postgresql-libs \
     && docker-php-ext-install pdo_pgsql \
     && apk --no-cache del postgresql-dev
 
+# SOAP
+RUN docker-php-ext-install soap
+
 # Remove phpize deps (saves about 200Mb)
 RUN apk --no-cache del .phpize-deps
 
