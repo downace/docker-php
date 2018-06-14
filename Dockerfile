@@ -20,6 +20,8 @@ RUN apk --no-cache del .phpize-deps
 
 RUN docker-php-ext-install zip
 
+USER www-data
+
 RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
     # There is no sha384sum utility, using PHP implementation
     && php -r "exit(strcmp(hash_file('SHA384', 'composer-setup.php'), '`curl -fs https://composer.github.io/installer.sig`'));" || echo 'Compose installer corrupt' \
