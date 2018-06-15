@@ -28,6 +28,6 @@ RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
 
 USER www-data
 
-ENV PATH $HOME/.composer/vendor/bin:$PATH
+ENV PATH /home/www-data/.composer/vendor/bin:$PATH
 
 RUN composer global require consolidation/cgr
