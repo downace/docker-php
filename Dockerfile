@@ -25,3 +25,8 @@ RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
     && php -r "exit(strcmp(hash_file('SHA384', 'composer-setup.php'), '`curl -fs https://composer.github.io/installer.sig`'));" || echo 'Composer installer corrupt' \
     && php composer-setup.php --install-dir=/usr/bin --filename=composer \
     && rm composer-setup.php
+    && composer global require consolidation/cgr
+
+USER www-data
+
+ENV PATH $HOME/.composer/vendor/bin:$PATH
