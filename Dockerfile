@@ -11,14 +11,12 @@ RUN apk --no-cache add postgresql-dev postgresql-libs \
     && docker-php-ext-install pdo_pgsql \
     && apk --no-cache del postgresql-dev
 
-# SOAP
-RUN apk --no-cache add libxml2-dev \
-    && docker-php-ext-install soap
+RUN apk --no-cache add libxml2-dev
+
+RUN docker-php-ext-install soap zip intl
 
 # Remove phpize deps (saves about 200Mb)
-RUN apk --no-cache del .phpize-deps
-
-RUN docker-php-ext-install zip
+RUN apk --no-cache del .phpize-deps libxml2-dev
 
 RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
     # There is no sha384sum utility, using PHP implementation
