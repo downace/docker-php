@@ -12,12 +12,12 @@ RUN apk --no-cache add postgresql-dev postgresql-libs \
     && apk --no-cache del postgresql-dev
 
 # libxml2-dev - for soap extension
-# icu-dev - for intl extension
-RUN apk --no-cache add libxml2-dev icu-dev
+# icu-libs, icu-dev - for intl extension
+RUN apk --no-cache add libxml2-dev icu-dev icu-libs
 
 RUN docker-php-ext-install soap zip intl
 
-# Remove phpize deps (saves about 200Mb)
+# Remove phpize deps (saves about 200Mb) and other dev packages
 RUN apk --no-cache del .phpize-deps libxml2-dev icu-dev
 
 RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
