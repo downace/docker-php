@@ -20,6 +20,10 @@ RUN docker-php-ext-install soap zip intl
 # Remove phpize deps (saves about 200Mb) and other dev packages
 RUN apk --no-cache del .phpize-deps libxml2-dev icu-dev
 
+# iconv fix (https://github.com/docker-library/php/issues/240#issuecomment-305038173)
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+
 RUN curl -fsS https://getcomposer.org/installer -o composer-setup.php \
     # There is no sha384sum utility, using PHP implementation
     && php -r "exit(strcmp(hash_file('SHA384', 'composer-setup.php'), '`curl -fs https://composer.github.io/installer.sig`'));" || echo 'Composer installer corrupt' \
