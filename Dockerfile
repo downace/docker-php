@@ -5,6 +5,19 @@ RUN apk add --virtual .phpize-deps --no-cache $PHPIZE_DEPS \
     && pecl install xdebug-2.6.0 mongodb \
     && docker-php-ext-enable xdebug mongodb
 
+# Install tideways_xhprof from source
+RUN apk --no-cache add git \
+    && git clone "https://github.com/tideways/php-xhprof-extension.git" xhprof \
+    && cd xhprof \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable tideways_xhprof \
+    && cd ../ \
+    && rm -r xhprof \
+    && apk --no-cache del git
+
 # libpq is a part of postgresql-libs
 # but postgresql-libs couldn't be installed without postgresql-dev
 RUN apk --no-cache add postgresql-dev postgresql-libs \
