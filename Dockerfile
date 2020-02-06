@@ -2,8 +2,8 @@ FROM php:7.2-fpm-alpine
 
 # Install phpize deps as virtual package
 RUN apk add --virtual .phpize-deps --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug-2.6.0 \
-    && docker-php-ext-enable xdebug
+    && pecl install xdebug-2.6.0 mongodb \
+    && docker-php-ext-enable xdebug mongodb
 
 # libpq is a part of postgresql-libs
 # but postgresql-libs couldn't be installed without postgresql-dev
